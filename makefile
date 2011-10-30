@@ -19,7 +19,8 @@ OBJCOPY       ?= avr-objcopy
 OBJDUMP       ?= avr-objdump
 FLASHCMD      ?= uisp -dprog=bsd --upload if=$(OUT).hex 
 ERASECMD      ?= uisp -dprog=bsd --erase 
-FLASHUSBCMD   ?= avrdude -c avr910 -p m32 -P $(AVRPROGDEV) -e -U flash:w:image.hex
+#FLASHUSBCMD   ?= avrdude -c avr910 -p m32 -P $(AVRPROGDEV) -e -U flash:w:image.hex
+FLASHUSBCMD   ?= avrdude -c usbasp -p m32 -U flash:w:image.hex
 LAPFLASHCMD   ?= lapcontrol -s rl
 
 #############################################################################
