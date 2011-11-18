@@ -1,0 +1,39 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Image::Magick;
+
+my $image;
+my $pixel;
+
+if (@ARGV != 0) {
+	usage();
+	exit();
+}
+
+
+$image = new Image::Magick;
+$image->Read($ARGV[0]);
+
+print "char frame1[] = {\n";
+
+for (my $y = 0; $y < 32; $y++) {
+	print "\t";
+	for (my $x = 0; $x < 32; $x++) {
+		$pixel = (1 - $image->GetPixel(x=>$x, y=>$y, channel=>"Gray"));
+		$pixel = int($pixel + 0.5);
+		print $pixel;
+		if (!(($y == 31) && ($x == 31))) {
+			print ',';
+		}
+	}
+	if ($y < 31) {
+		print "\n";
+	}
+}
+
+print "\n};\n";
+
+sub usage {
+	print "Usage: gif2pron <imagefile>\n";
+}
