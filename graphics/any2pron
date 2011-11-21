@@ -5,15 +5,20 @@ use Image::Magick;
 
 my $image;
 my $pixel;
+my $fg;
 
-if (@ARGV != 0) {
+if ($#ARGV != 0) {
 	usage();
 	exit();
 }
 
+$fg = new Image::Magick;
+$fg->Read($ARGV[0]);
 
-$image = new Image::Magick;
-$image->Read($ARGV[0]);
+$image = Image::Magick->new(size=>$fg->Get('width').'x'.$fg->Get('height'));
+$image->Read('xc:#ffffff');
+$image->Composite(compose=>'Over', image=>$fg);
+$image->Scale("32x32");
 
 print "char frame1[] = {\n";
 
@@ -35,5 +40,5 @@ for (my $y = 0; $y < 32; $y++) {
 print "\n};\n";
 
 sub usage {
-	print "Usage: gif2pron <imagefile>\n";
+	print "Usage: any2pron <imagefile>\n";
 }
