@@ -5,13 +5,19 @@ use Image::Magick;
 
 my $image;
 my $pixel;
+my $fg;
 
 if (@ARGV != 0) {
 	usage();
 	exit();
 }
 
+$fg = new Image::Magick;
+$fg->Read($ARGV[0]);
 
+$image = Image::Magick->new(size=>$fg->Get('width').'x'.$fg->Get('height'));
+$image->Read('xc:#ffffff');
+$image->Composite(compose=>'Over', image=>$fg);
 $image->Scale("32x32");
 
 print "char frame1[] = {\n";
