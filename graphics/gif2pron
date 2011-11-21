@@ -7,7 +7,7 @@ my $image;
 my $pixel;
 my $fg;
 
-if (@ARGV != 0) {
+if ($#ARGV != 0) {
 	usage();
 	exit();
 }
